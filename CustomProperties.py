@@ -1,5 +1,10 @@
-# Copyright (c) 2003, IOPEN Technologies Ltd.
-# Author: richard@iopen.co.nz
+# Copyright IOPEN Technologies Ltd., 2003
+# richard@iopen.net
+#
+# For details of the license, please see LICENSE.
+#
+# You MUST follow the rules in README_STYLE before checking in code
+# to the head. Code which does not follow the rules will be rejected.  
 #
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Globals import InitializeClass, PersistentMapping
