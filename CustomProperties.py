@@ -142,6 +142,7 @@ class CustomProperties(SimpleItem, PropertyManager):
             set_NameOfProperty.
             
         """
+        self._p_changed = 1
         self._wrapperCheck(value)
         
         if self._property_mapping.has_key(id):
