@@ -28,7 +28,8 @@ class CustomProperties(SimpleItem, PropertyManager):
     meta_type = "Custom Properties"
     manage_options = PropertyManager.manage_options + \
                      SimpleItem.manage_options
-
+    _property_mapping = {}
+    
     def __init__(self, id, title="Custom Properties"):
         """ Initialize the properties.
            
