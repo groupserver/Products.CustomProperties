@@ -58,7 +58,10 @@ class CustomProperties(SimpleItem, PropertyManager):
         mp = pm.get(name, None)
         if mp and mp != name:
             setattr(self, mp, value)
-
+        
+        # make sure any changes we have made are picked up    
+        setattr(self, '_p_changed', 1)
+    
     def __getattr__(self, name):
         d = self.__dict__
         
