@@ -1,10 +1,21 @@
-# Copyright IOPEN Technologies Ltd., 2003
-# richard@iopen.net
+# Copyright (C) 2003,2004 IOPEN Technologies Ltd.
 #
-# For details of the license, please see LICENSE.
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
 #
-# You MUST follow the rules in README_STYLE before checking in code
-# to the head. Code which does not follow the rules will be rejected.  
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#
+# You MUST follow the rules in STYLE before checking in code
+# to the trunk. Code which does not follow the rules will be rejected.
 #
 import os, sys
 if __name__ == '__main__':
@@ -77,6 +88,7 @@ class TestCustomProperties(ZopeTestCase.ZopeTestCase):
         self.failIf(self.cp._property_mapping.has_key('dc:Format'))
 
     def test_10_changePropertyMode(self):
+        from zExceptions import BadRequest
         setattr(self.cp, 'content_type', lambda: 'application/pdf')
         self.cp.manage_addProperty('dc:Format', '', 'string')
         self.cp.manage_addPropertyMapping({'dc:Format': 'content_type'})
@@ -84,7 +96,7 @@ class TestCustomProperties(ZopeTestCase.ZopeTestCase):
         try:
             apply(self.cp.manage_changeProperties, (), {'dc:Format': 'foo'})
             self.fail('Should have raised a "BadRequest"')
-        except 'BadRequest':
+        except ('BadRequest', BadRequest): # older Zope versions used a string exception
             pass
         self.cp.manage_changePropertyMode('dc:Format', 'w')
         try:
