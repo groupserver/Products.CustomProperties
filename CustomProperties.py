@@ -15,6 +15,8 @@ class CustomProperties(SimpleItem, PropertyManager):
     """ A simple properties object for creating just a property sheet.
     
     """
+    version = 0.9
+    
     meta_type = "Custom Properties"
     manage_options = PropertyManager.manage_options + \
                      SimpleItem.manage_options
