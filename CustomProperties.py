@@ -119,6 +119,7 @@ class CustomProperties(SimpleItem, PropertyManager):
         """ Hook for updating a particular property.
         
         """
+        self._p_changed = 1
         # the check method should return the value to be stored or
         # raise an Exception
         check_method = getattr(self, 'check_%s' % id, None)
