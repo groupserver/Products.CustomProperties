@@ -33,6 +33,10 @@ class CustomProperties(SimpleItem, PropertyManager):
         # use the regular property sheets storage
         PropertyManager._updateProperty(self, id, value)
 
+        # run a reindex if we are CatalogAware
+        if hasattr(self, 'reindex_object'):
+            self.reindex_object()
+
     # an example of using foo -- DOCUMENT ME PROPERLY!
     #def check_foo(self, value):
     #    """ Check the value for foo """
