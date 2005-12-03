@@ -25,6 +25,15 @@ from Testing import ZopeTestCase
 
 ZopeTestCase.installProduct('CustomProperties')
 
+def wibble(self):
+    return getattr(self, '_wibble', 'not set')
+
+def check_wibble(self, value):
+    return 'foo'
+
+def set_wibble(self, value):
+    self._wibble = 'foo'
+
 from Products.CustomProperties.CustomProperties import CustomProperties
 class TestCustomProperties(ZopeTestCase.ZopeTestCase):
     def afterSetUp(self):
@@ -103,7 +112,7 @@ class TestCustomProperties(ZopeTestCase.ZopeTestCase):
             apply(self.cp.manage_changeProperties, (), {'dc:Format': 'foo'})
         except:
             self.fail('Should not have raised an Exception')
-
+        
     def test_11_directSettingOfMappedProperty(self):
         setattr(self.cp, 'content_type', 'application/pdf')
         self.cp.manage_addProperty('dc:Format', '', 'string')
@@ -118,7 +127,11 @@ class TestCustomProperties(ZopeTestCase.ZopeTestCase):
         self.assertEqual(getattr(self.cp, 'dc:Format', None), 'application/pdf')
         self.assertEqual(getattr(self.cp, 'content_type', None), 'application/pdf')
         
-    
+    def test_12_propertyChecker(self):
+        self.cp.check_wibble = lambda x: check_wibble(self.cp, x)        
+        setattr(self.cp, 'wibble', 'blarg')
+        self.assertEqual(self.cp.wibble, 'foo')
+        
 if __name__ == '__main__':
     framework(descriptions=1, verbosity=1)
 else:

@@ -50,23 +50,26 @@ class CustomProperties(SimpleItem, PropertyManager):
 
     def __setattr__(self, name, value):
         d = self.__dict__
-        # we need to avoid the catch 22 of the property mapping not existing, since
-        # we may actually be creating the property mapping
+        if name[0] == '_':
+            return SimpleItem.__setattr__(self, name, value)
+        
         pm = d.get('_property_mapping', {})
         d[name] = value
+        
+        if hasattr(self, 'check_%s' % name):
+            value = getattr(self, 'check_%s' % name)(value)
         
         mp = pm.get(name, None)
         if mp and mp != name:
             setattr(self, mp, value)
-        
-        # make sure any changes we have made are picked up    
-        setattr(self, '_p_changed', 1)
+            setattr(self, '_p_changed', 1)
+        else:
+            SimpleItem.__setattr__(self, name, value)
     
     def __getattr__(self, name):
         d = self.__dict__
         
-        pm = d.get('_property_mapping', {})
-        
+        pm = d.get('_property_mapping', {})        
         try:
             if pm.has_key(name):
                 return self.__dict__[pm[name]]
@@ -121,6 +124,8 @@ class CustomProperties(SimpleItem, PropertyManager):
             callable properties for instance.
             
         """
+        if self.hasProperty(id):
+            return 0
         if not id or id[:1]=='_' or (id[:3]=='aq_') \
            or (' ' in id) or escape(id) != id:
             return 0
