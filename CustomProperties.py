@@ -216,7 +216,7 @@ class CustomProperties(SimpleItem, PropertyManager):
                 new_properties.append(property_dict)
             self._properties = tuple(new_properties)
         else:
-            raise 'AttributeError', 'No such property %s' % id
+            raise AttributeError, 'No such property %s' % id
         
     def manage_addPropertyMapping(self, mapping):
         """ Adds a mapping between one or more properties and an attribute/method.
@@ -234,12 +234,15 @@ class CustomProperties(SimpleItem, PropertyManager):
                 if hasattr(self, mapping[id]):
                     self._property_mapping[id] = mapping[id]
                     # we delete the original attribute, because we are now mapping it,
-                    # and we want getattr to work
-                    delattr(self, id)
+                    # and we want getattr to work ... but only if it existed!
+                    try:
+                        delattr(self, id)
+                    except AttributeError:
+                        pass
                 else:
-                    raise 'AttributeError', 'No such attribute or method %s' % mapping[id]
+                    raise AttributeError, 'No such attribute or method %s' % mapping[id]
             else:
-                raise 'AttributeError', 'No such property %s' % id
+                raise AttributeError, 'No such property %s' % id
 
     security.declareProtected('Upgrade objects', 'upgrade')
     security.setPermissionDefault('Upgrade objects', ('Manager', 'Owner'))
