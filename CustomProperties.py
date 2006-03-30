@@ -291,4 +291,5 @@ def initialize(context):
         permission="Add CustomProperties",
         constructors=(manage_addCustomPropertiesForm,
                       manage_addCustomProperties),
+        icon='icons/ic-properties.png'
         )
