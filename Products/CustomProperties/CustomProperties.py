@@ -20,7 +20,8 @@
 from AccessControl import getSecurityManager, ClassSecurityInfo
 
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
-from Globals import InitializeClass, PersistentMapping
+from AccessControl.class_init import InitializeClass
+from Persistence import PersistentMapping
 from OFS.SimpleItem import SimpleItem
 from OFS.PropertyManager import PropertyManager
 from cgi import escape
